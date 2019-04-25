@@ -65,7 +65,7 @@ struct Game {
 
 impl Game {
 
-    fn new(rng: &mut ThreadRng) -> Self {
+    fn new(mut rng: &mut ThreadRng) -> Self {
         let word = WORDS.choose(&mut rng).unwrap();
         let word: Vec<MysteryChar> =
             word.chars().map(|c| Hidden(c)).collect();
@@ -76,8 +76,8 @@ impl Game {
     }
 
     fn is_won(&self) -> bool {
-        for c in self.word {
-            if let Hidden(_) = c {
+        for c in &self.word {
+            if let &Hidden(_) = c {
                 return false;
             }
         }
@@ -98,16 +98,16 @@ impl Game {
         println!();
         print_man(self.guesses.len());
         println!();
-        for c in self.word {
+        for c in &self.word {
             match c {
-                Found(c) => print!("{}", c),
-                Hidden(_) => print!("_"),
+                &Found(c) => print!("{}", c),
+                &Hidden(_) => print!("_"),
             }
         }
         println!();
     }
 
-    fn update(guess: char) {
+    fn update(&mut self, guess: char) {
         unimplemented!("need to play the game")
     }
 
