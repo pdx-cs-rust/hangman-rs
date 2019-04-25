@@ -1,5 +1,8 @@
 #![allow(unused)]
 
+use rand::prelude::*;
+use std::io::{Write, stdin, stdout};
+
 const WORDS: &[&'static str] = &[
     "icicle",
     "pizza",
@@ -60,7 +63,17 @@ struct Game {
     word: Vec<MysteryChar>,
 }
 
+fn get_guess() -> char {
+    print!("Guess a char: ");
+    stdout().flush();
+    let mut line = String::new();
+    stdin().read_line(&mut line).unwrap();
+    line.chars().next().unwrap()
+}
+
 fn main() {
-    print_man(MEN.len() - 1);
-    println!("{}", WORDS[1]);
+    let mut rng = thread_rng();
+    print_man(rng.gen_range(0, MEN.len() - 1));
+    println!("{}", WORDS[rng.gen_range(0, WORDS.len())]);
+    println!("{}", get_guess());
 }
