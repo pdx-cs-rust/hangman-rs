@@ -108,7 +108,24 @@ impl Game {
     }
 
     fn update(&mut self, guess: char) {
-        unimplemented!("need to play the game")
+        for c in self.guesses.chars() {
+            if c == guess {
+                println!("already found {}", c);
+                return;
+            }
+        }
+        for c in &mut self.word {
+            match c {
+                Found(c0) if guess == c0 => {
+                    println!("already found {}", c0);
+                    return;
+                },
+                Hidden(c0) if guess == c0 => {
+                    c = Found(c0);
+                },
+                _ => 
+            }
+        }
     }
 
 }
