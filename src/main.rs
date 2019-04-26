@@ -98,17 +98,19 @@ impl Game {
     }
 
     fn print_state(&self) {
+        println!();
         let guesses_string: String = self.guesses.iter().collect();
         println!("{}", guesses_string);
         println!();
         print_man(self.guesses.len());
         println!();
-        for c in &self.word {
+        self.word.iter().for_each(|c| {
             match c {
-                &Found(c) => print!("{}", c),
-                &Hidden(_) => print!("_"),
+                &Found(c) => print!("{} ", c),
+                &Hidden(_) => print!("_ "),
             }
-        }
+        });
+        println!();
         println!();
     }
 
