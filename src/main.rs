@@ -164,4 +164,13 @@ fn main() {
         let guess = get_guess();
         game.update(guess);
     }
+
+    println!();
+    game.print_state();
+    if game.is_won() {
+        println!("Your man escaped the gallows.");
+    } else {
+        assert!(game.is_lost());
+        println!("Your man is hanged.");
+    }
 }
