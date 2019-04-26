@@ -8,11 +8,9 @@
 use rand::prelude::*;
 use std::io::{Write, stdin, stdout};
 
-const WORDS: &[&'static str] = &[
-    "icicle",
-    "pizza",
-    "slough",
-];
+const WORDS: &[&'static str] =
+
+include!("words.rs.inc");
 
 const MEN: &[[[char; 3]; 4]] = &[
     [[' ', ' ', ' '],
