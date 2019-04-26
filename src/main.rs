@@ -93,7 +93,7 @@ impl Game {
     }
 
     fn is_lost(&self) -> bool {
-        self.guesses.len() >= MEN.len()
+        self.guesses.len() >= MEN.len() - 1
     }
 
     fn is_finished(&self) -> bool {
