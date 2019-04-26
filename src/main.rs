@@ -113,23 +113,31 @@ impl Game {
     }
 
     fn update(&mut self, guess: char) {
-        for c in self.guesses.chars() {
-            if c == guess {
-                println!("already found {}", c);
+        for c in &self.guesses {
+            if *c == guess {
+                println!("already guessed {}", c);
                 return;
             }
         }
-        for c in &mut self.word {
-            match c {
+        let mut occurs = Vec::new();
+        for i in 0..self.word.len() {
+            match self.word[i] {
                 Found(c0) if guess == c0 => {
-                    println!("already found {}", c0);
+                    println!("already guessed {}", c0);
                     return;
                 },
                 Hidden(c0) if guess == c0 => {
-                    c = Found(c0);
+                    occurs.push(i);
                 },
-                _ => 
+                _ => (),
             }
+        }
+        if occurs.is_empty() {
+            self.guesses.push(guess);
+            return;
+        }
+        for i in occurs {
+            self.word[i] = Found(guess);
         }
     }
 
