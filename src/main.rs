@@ -73,7 +73,10 @@ impl Game {
     fn new(mut rng: &mut ThreadRng) -> Self {
         let word = WORDS.choose(&mut rng).unwrap();
         let word: Vec<MysteryChar> =
-            word.chars().map(|c| Hidden(c)).collect();
+            word.chars()
+                .map(|c| c.to_ascii_uppercase())
+                .map(Hidden)
+                .collect();
         Self {
             guesses: Vec::new(),
             word,
@@ -150,7 +153,7 @@ fn get_guess() -> char {
     stdout().flush();
     let mut line = String::new();
     stdin().read_line(&mut line).unwrap();
-    line.chars().next().unwrap()
+    line.chars().next().unwrap().to_ascii_uppercase()
 }
 
 fn main() {
