@@ -31,6 +31,15 @@ enum MysteryChar {
 }
 use MysteryChar::*;
 
+impl MysteryChar {
+    fn to_char(&self) -> char {
+        match self {
+            &Hidden(c) => c,
+            &Found(c) => c,
+        }
+    }
+}
+
 struct Game {
     guesses: Vec<char>,
     word: Vec<MysteryChar>,
@@ -114,6 +123,13 @@ impl Game {
         }
     }
 
+    fn clue_word(&self) -> String {
+        let mut s = String::new();
+        for c in &self.word {
+            s.push(c.to_char());
+        }
+        return s;
+    }
 }
 
 fn get_guess() -> char {
@@ -139,6 +155,7 @@ fn main() {
         println!("Your man escaped the gallows.");
     } else {
         assert!(game.is_lost());
+        println!("(Word was {}.)", game.clue_word());
         println!("Your man is hanged.");
     }
 }
