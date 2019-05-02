@@ -7,23 +7,29 @@
 
 use rand::prelude::*;
 use std::io::{Write, stdin, stdout};
+use std::fmt::{self,Display, Formatter};
 
 const WORDS: &[&'static str] = include!("words.rs.inc");
 
 const MEN: &[[[char; 3]; 4]] = include!("men.rs.inc");
 
-fn print_man(i: usize) {
-    assert!(i < MEN.len());
-    let man = &MEN[i];
-    for r in 0..man.len() {
-        let row = &man[r];
-        for c in 0..row.len() {
-            print!("{}", row[c]);
+struct Man(usize);
+
+impl Display for Man {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let &Man(i) = self;
+        assert!(i < MEN.len());
+        let man = &MEN[i];
+        for r in 0..man.len() {
+            let row = &man[r];
+            for c in 0..row.len() {
+                write!(f, "{}", row[c])?;
+            }
+            writeln!(f)?;
         }
-        println!();
+        Ok(())
     }
-}    
-                 
+}
 
 enum MysteryChar {
     Hidden(char),
@@ -82,7 +88,7 @@ impl Game {
         let guesses_string: String = self.guesses.iter().collect();
         println!("{}", guesses_string);
         println!();
-        print_man(self.guesses.len());
+        println!("{}", self.man());
         println!();
         self.word.iter().for_each(|c| {
             match c {
@@ -129,6 +135,10 @@ impl Game {
             s.push(c.to_char());
         }
         return s;
+    }
+
+    fn man(&self) -> Man {
+        Man(self.guesses.len())
     }
 }
 
